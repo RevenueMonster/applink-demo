@@ -13,8 +13,6 @@ import my.revenuemonster.intentdemo.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var receiver: Receiver? = null
-    private var intentFilter: IntentFilter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,70 +25,65 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        receiver = Receiver()
-        intentFilter = IntentFilter().also {
-            it.addAction("REVENUE_MONSTER_RESULT")
-        }
-
         binding.btnQuickPay.setOnClickListener {
             val i = Intent("REVENUE_MONSTER_PAYMENT").apply {
+                putExtra("packageName", packageName)
+                putExtra("receiverName", ReceiverActivity::class.java.name)
                 putExtra("transactionType", 1)
                 putExtra("orderId", System.currentTimeMillis().toString())
                 putExtra("orderTitle", "Intent Demo")
                 putExtra("amount", 10)
-                putExtra("printReceipt", false)
+                putExtra("printReceipt", true)
             }
             startActivity(i)
         }
 
         binding.btnCard.setOnClickListener {
             val i = Intent("REVENUE_MONSTER_PAYMENT").apply {
+                putExtra("packageName", packageName)
+                putExtra("receiverName", ReceiverActivity::class.java.name)
                 putExtra("transactionType", 2)
                 putExtra("orderId", System.currentTimeMillis().toString())
                 putExtra("orderTitle", "Intent Demo")
                 putExtra("amount", 100)
-                putExtra("printReceipt", false)
+                putExtra("printReceipt", true)
             }
             startActivity(i)
         }
 
         binding.btnVoid.setOnClickListener {
             val i = Intent("REVENUE_MONSTER_PAYMENT").apply {
+                putExtra("packageName", packageName)
+                putExtra("receiverName", ReceiverActivity::class.java.name)
                 putExtra("transactionType", 3)
-                putExtra("transactionId", "240620034957010325054813")
+                putExtra("transactionId", "240627073307100322392368")
                 putExtra("reason", "Wrong Order")
-                putExtra("email", "test@abc.my")
-                putExtra("pin", "456789")
-                putExtra("printReceipt", false)
+                putExtra("email", "oska.ng@revenuemonster.my")
+                putExtra("pin", "123456")
+                putExtra("printReceipt", true)
             }
             startActivity(i)
         }
 
         binding.btnWalletSettlement.setOnClickListener {
             val i = Intent("REVENUE_MONSTER_PAYMENT").apply {
+                putExtra("packageName", packageName)
+                putExtra("receiverName", ReceiverActivity::class.java.name)
                 putExtra("transactionType", 4)
-                putExtra("print", false)
+                putExtra("print", true)
             }
             startActivity(i)
         }
 
         binding.btnCardSettlement.setOnClickListener {
             val i = Intent("REVENUE_MONSTER_PAYMENT").apply {
+                putExtra("packageName", packageName)
+                putExtra("receiverName", ReceiverActivity::class.java.name)
                 putExtra("transactionType", 5)
             }
             startActivity(i)
         }
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        registerReceiver(receiver,intentFilter)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(receiver)
     }
 
 }
